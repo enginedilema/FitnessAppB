@@ -20,21 +20,26 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import org.insbaixcamp.fitnessappb.FitnessApp
 import org.insbaixcamp.fitnessappb.ui.theme.FitnessAppBTheme
 import org.insbaixcamp.fitnessappb.utils.CalculadoraIMC
+import org.intellij.lang.annotations.JdkConstants
 
 @Composable
 fun WeightTrackingScreen(pes: Double, pesObjectiu: Double, alçada: Int) {
     var listPes = mutableListOf<Double>()
-    var pesNou: Double by remember { mutableStateOf(0.0) }
+    var pesNou: Double by remember { mutableStateOf(pes) }
+    var _pes: Double by remember { mutableStateOf(pes) }
 
     Column(Modifier.fillMaxHeight()) {
         Row(Modifier
             .fillMaxWidth()
-            .padding(4.dp)) {
+            .padding(4.dp).wrapContentHeight()) {
             Card(Modifier
                 .padding(4.dp)
                 .weight(1f)) {
@@ -42,17 +47,17 @@ fun WeightTrackingScreen(pes: Double, pesObjectiu: Double, alçada: Int) {
                     .padding(4.dp)
                     .wrapContentHeight()) {
                     Text("Pes actual")
-                    Text("$pes Kg")
+                    Text("$pes Kg", fontSize = 20.sp, fontWeight = FontWeight.Bold)
                 }
             }
             Card(Modifier
                 .padding(4.dp)
                 .weight(1f)) {
                 Column(modifier = Modifier
-                    .padding(4.dp)
+                    .padding(8.dp)
                     .wrapContentHeight()) {
                     Text("Pes objectiu")
-                    Text("$pesObjectiu Kg")
+                    Text("$pesObjectiu Kg", fontSize = 20.sp, fontWeight = FontWeight.Bold)
                 }
             }
             Card(Modifier
@@ -63,7 +68,7 @@ fun WeightTrackingScreen(pes: Double, pesObjectiu: Double, alçada: Int) {
                     .wrapContentHeight()) {
                     Text("IMC")
                     var imc = CalculadoraIMC.calcularIMC(pes, alçada)
-                    Text("$imc ")
+                    Text("$imc ", fontSize = 20.sp, fontWeight = FontWeight.Bold)
                 }
             }
         }
@@ -73,12 +78,15 @@ fun WeightTrackingScreen(pes: Double, pesObjectiu: Double, alçada: Int) {
         )
         OutlinedTextField(
             label = { Text(text = "Nou pes kg") },
-            onValueChange = { pesNou = it.toDouble() },
+            onValueChange = { _pes = it.toDouble() },
             value = pes.toString(),
             modifier = Modifier.padding(8.dp).fillMaxWidth()
             )
         Button(
-            onClick = { },
+            onClick = {
+                pesNou = _pes
+                listPes.add(pesNou)
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(8.dp)
