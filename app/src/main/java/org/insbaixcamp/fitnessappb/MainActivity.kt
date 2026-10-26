@@ -52,7 +52,8 @@ fun FitnessApp() {
     if(editant){
         EditProfileScreen(
             nom, email, dataNaixement, genere, pes, pesObjectiu, alçada, objectiu,
-            onSave = { nomN, emailN, dataNaixementN, genereN, pesN, pesObjectiuN, alçadaN ->
+            onSave = { nomN, emailN, dataNaixementN, genereN,
+                       pesN, pesObjectiuN, alçadaN ->
                 nom = nomN
                 email = emailN
                 dataNaixement = dataNaixementN

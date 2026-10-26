@@ -139,17 +139,22 @@ fun EditProfileScreen(
                 value = alçadaNou.toString(),
                 onValueChange = { alçadaNou = it.toInt() },
                 label = { Text("Alçada") },
+                modifier = Modifier.weight(1f),
             )
             OutlinedTextField(
                 value = pesNou.toString(),
                 onValueChange = { pesNou = it.toDouble() },
                 label = { Text("Pes") },
-            )
+                modifier = Modifier.weight(1f).padding(start = 8.dp, end = 8.dp),
+
+                )
             OutlinedTextField(
                 value = pesObjectiuNou.toString(),
                 onValueChange = { pesObjectiuNou = it.toDouble() },
                 label = { Text("Pes objectiu") },
-            )
+                modifier = Modifier.weight(1f),
+
+                )
         }
         Button(
             onClick = {

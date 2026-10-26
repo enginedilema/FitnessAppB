@@ -28,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.insbaixcamp.fitnessappb.R
+import org.insbaixcamp.fitnessappb.ui.component.formatDate
 import java.util.Calendar
 
 @Composable
@@ -70,8 +71,8 @@ fun ProfileScreen(
                 //Caixa data de naixement
                 Column(Modifier.padding(16.dp)){
                     Text("Edat", fontSize = 16.sp, color = Color.Gray)
-                    //var anys:Int = Calendar.getInstance().get(Calendar.YEAR) - dataNaixement.split("/")[2].toInt()
-                    //Text(anys.toString(), fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                    val formattedDate = dataNaixement?.let { formatDate(it) } ?: ""
+                    Text(formattedDate, fontSize = 20.sp, fontWeight = FontWeight.Bold)
                 }
                 //Caixa genere
                 Column(Modifier.padding(16.dp)){
