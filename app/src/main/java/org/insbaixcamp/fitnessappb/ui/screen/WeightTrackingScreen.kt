@@ -95,14 +95,14 @@ fun WeightTrackingScreen(pes: Double, pesObjectiu: Double, alçada: Int) {
         }
         Text(
             text = "Evolució del pes",
-            Modifier.padding(top = 16.dp)
+            Modifier.padding(top = 16.dp, start = 8.dp)
         )
         Card(modifier = Modifier.padding(8.dp)) {
             Box(modifier = Modifier.fillMaxWidth().height(150.dp))
         }
         Text(
             text = "Ultims registres",
-            Modifier.padding(top = 16.dp)
+            Modifier.padding(top = 16.dp, start = 8.dp)
         )
     }
 }
