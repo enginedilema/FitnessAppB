@@ -27,7 +27,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.insbaixcamp.fitnessappb.BottomNavItem
 import org.insbaixcamp.fitnessappb.R
+import org.insbaixcamp.fitnessappb.data.Profile
 import org.insbaixcamp.fitnessappb.ui.component.formatDate
 import java.util.Calendar
 
@@ -55,7 +57,7 @@ fun ProfileScreen(
                     .background(Color.Black)
             )
             Text(
-                nom,
+                text = nom,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,

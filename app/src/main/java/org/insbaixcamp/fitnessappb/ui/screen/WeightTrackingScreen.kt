@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.OutlinedTextField
@@ -26,13 +27,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.insbaixcamp.fitnessappb.FitnessApp
+import org.insbaixcamp.fitnessappb.data.WeightTracking
 import org.insbaixcamp.fitnessappb.ui.theme.FitnessAppBTheme
 import org.insbaixcamp.fitnessappb.utils.CalculadoraIMC
 import org.intellij.lang.annotations.JdkConstants
 
 @Composable
 fun WeightTrackingScreen(pes: Double, pesObjectiu: Double, alçada: Int) {
-    var listPes = mutableListOf<Double>()
+    var listPes: ArrayList<WeightTracking>
+        by remember { mutableStateOf(arrayListOf<WeightTracking>())}
     var pesNou: Double by remember { mutableStateOf(pes) }
     var _pes: Double by remember { mutableStateOf(pes) }
 
@@ -84,8 +87,9 @@ fun WeightTrackingScreen(pes: Double, pesObjectiu: Double, alçada: Int) {
             )
         Button(
             onClick = {
+                var data = System.currentTimeMillis()
                 pesNou = _pes
-                listPes.add(pesNou)
+                listPes.add(WeightTracking(pesNou, data))
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -104,6 +108,11 @@ fun WeightTrackingScreen(pes: Double, pesObjectiu: Double, alçada: Int) {
             text = "Ultims registres",
             Modifier.padding(top = 16.dp, start = 8.dp)
         )
+        LazyColumn(Modifier.fillMaxWidth()) {
+            items(listPes.size) {
+
+            }
+        }
     }
 }
 
