@@ -1,5 +1,6 @@
 package org.insbaixcamp.fitnessappb.ui.screen
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,12 +12,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -28,16 +31,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.insbaixcamp.fitnessappb.FitnessApp
 import org.insbaixcamp.fitnessappb.data.WeightTracking
+import org.insbaixcamp.fitnessappb.ui.component.WeightTrackingItem
 import org.insbaixcamp.fitnessappb.ui.theme.FitnessAppBTheme
 import org.insbaixcamp.fitnessappb.utils.CalculadoraIMC
 import org.intellij.lang.annotations.JdkConstants
 
 @Composable
 fun WeightTrackingScreen(pes: Double, pesObjectiu: Double, alçada: Int) {
-    var listPes: ArrayList<WeightTracking>
-        by remember { mutableStateOf(arrayListOf<WeightTracking>())}
+    val TAG = "WeightTrackingScreen"
+    var listPes = remember { mutableStateListOf<WeightTracking>() }
+
     var pesNou: Double by remember { mutableStateOf(pes) }
     var _pes: Double by remember { mutableStateOf(pes) }
+    var _pesTemporal: Double by remember { mutableStateOf(_pes) }
 
     Column(Modifier.fillMaxHeight()) {
         Row(Modifier
@@ -50,7 +56,7 @@ fun WeightTrackingScreen(pes: Double, pesObjectiu: Double, alçada: Int) {
                     .padding(4.dp)
                     .wrapContentHeight()) {
                     Text("Pes actual")
-                    Text("$pes Kg", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                    Text("$_pes Kg", fontSize = 20.sp, fontWeight = FontWeight.Bold)
                 }
             }
             Card(Modifier
@@ -70,7 +76,7 @@ fun WeightTrackingScreen(pes: Double, pesObjectiu: Double, alçada: Int) {
                     .padding(4.dp)
                     .wrapContentHeight()) {
                     Text("IMC")
-                    var imc = CalculadoraIMC.calcularIMC(pes, alçada)
+                    var imc = CalculadoraIMC.calcularIMC(_pes, alçada)
                     Text("$imc ", fontSize = 20.sp, fontWeight = FontWeight.Bold)
                 }
             }
@@ -81,15 +87,16 @@ fun WeightTrackingScreen(pes: Double, pesObjectiu: Double, alçada: Int) {
         )
         OutlinedTextField(
             label = { Text(text = "Nou pes kg") },
-            onValueChange = { _pes = it.toDouble() },
-            value = pes.toString(),
+            onValueChange = { _pesTemporal = it.toDouble() },
+            value = _pesTemporal.toString(),
             modifier = Modifier.padding(8.dp).fillMaxWidth()
             )
         Button(
             onClick = {
                 var data = System.currentTimeMillis()
-                pesNou = _pes
-                listPes.add(WeightTracking(pesNou, data))
+                _pes = _pesTemporal
+                listPes.add(WeightTracking(_pes, data))
+                Log.i(TAG, "Array de pes: ${listPes}")
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -108,9 +115,16 @@ fun WeightTrackingScreen(pes: Double, pesObjectiu: Double, alçada: Int) {
             text = "Ultims registres",
             Modifier.padding(top = 16.dp, start = 8.dp)
         )
-        LazyColumn(Modifier.fillMaxWidth()) {
-            items(listPes.size) {
-
+        LazyColumn(
+            modifier = Modifier.padding(horizontal = 16.dp)
+                .fillMaxWidth()
+                .weight(1f)
+        ) {
+            items(
+                items = listPes,
+                key = { weightTracking -> weightTracking.data }
+            ) { weightTracking ->
+                WeightTrackingItem(weightTracking)
             }
         }
     }

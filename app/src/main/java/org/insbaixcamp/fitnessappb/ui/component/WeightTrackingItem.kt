@@ -26,7 +26,7 @@ fun WeightTrackingItem(item: WeightTracking) {
         Icon(
             imageVector = Icons.Default.DateRange,
             contentDescription = "Calendari",
-            modifier = Modifier.padding(end = 4.dp)
+            modifier = Modifier.padding(horizontal = 4.dp)
         )
         Text(
             text = formatDate(item.data),
