@@ -12,7 +12,11 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class TrainingViewModel : ViewModel() {
-
+    //El llistat de tots els exercicis agafats de la API
+    var exercisesTmp by mutableStateOf<List<Exercise>>(
+        emptyList()
+    )
+    //Llistat d'exercicis que es mostren
     var exercises by mutableStateOf<List<Exercise>>(
         emptyList()
     )
@@ -34,11 +38,19 @@ class TrainingViewModel : ViewModel() {
         loadExercises()
     }
 
+    //filtrar exercicis
+    fun findExercises(query: String) {
+        val filteredExercises = exercisesTmp.filter { exercise ->
+            exercise.name.contains(query, ignoreCase = true)
+        }
+        exercises = filteredExercises
+    }
+
     // Demana la primera pàgina
     fun loadExercises() {
         nextCursor = null
         hasNextPage = false
-        exercises = emptyList()
+        exercisesTmp = emptyList()
         requestExercises(null)
     }
 
@@ -79,10 +91,10 @@ class TrainingViewModel : ViewModel() {
                     body?.success == true
                 ) {
 
-                    exercises = if (cursor == null) {
+                    exercisesTmp = if (cursor == null) {
                         body.data
                     } else {
-                        exercises + body.data
+                        exercisesTmp + body.data
                     }
 
                     nextCursor = body.meta.nextCursor
@@ -94,6 +106,7 @@ class TrainingViewModel : ViewModel() {
                 } else {
                     error = "Error HTTP: ${response.code()}"
                 }
+                exercises = exercisesTmp
             }
 
             override fun onFailure(
