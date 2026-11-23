@@ -35,7 +35,20 @@ android {
     }
 }
 
+configurations.all {
+    resolutionStrategy.force("org.jetbrains.kotlin:kotlin-stdlib:2.2.10")
+    resolutionStrategy.force("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.10")
+    resolutionStrategy.force("org.jetbrains.kotlin:kotlin-stdlib-jdk7:2.2.10")
+    resolutionStrategy.force("org.jetbrains.kotlin:kotlin-reflect:2.2.10")
+}
+
 dependencies {
+    implementation("com.squareup.retrofit2:retrofit:3.0.0")
+    implementation(
+        "com.squareup.retrofit2:converter-gson:3.0.0"
+    )
+    implementation("io.coil-kt.coil3:coil-compose:3.6.3")
+    implementation("io.coil-kt.coil3:coil-network-okhttp:3.6.3")
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3)
