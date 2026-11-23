@@ -12,4 +12,9 @@ interface ExerciseDbApi {
         @Query("after") after: String? = null
     ): Call<ExerciseResponse>
 
+    @GET("api/v1/exercises/search")
+    fun searchExercises(
+        @Query("search") query: String
+    ): Call<ExerciseResponse>
 }
+
